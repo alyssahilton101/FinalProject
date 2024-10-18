@@ -1,7 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.Events;
+
+
+
+
+
 
 public class ResourceManager : MonoBehaviour
 {
@@ -12,6 +19,7 @@ public class ResourceManager : MonoBehaviour
     //TODO:
     // -Do something about running out of stuff
     // -Update UI/figure out how to code events
+    //https://gamedevbeginner.com/events-and-delegates-in-unity/
 
     //Setting up all resources
     private int food;
@@ -22,9 +30,20 @@ public class ResourceManager : MonoBehaviour
 
     //Adding some booleans
     bool isOutOfFood = false;
-    bool isCrewHPZero = false;
-    bool isShipHPZero = false;
-    bool isCrewMoraleZero = false;
+
+    //UI Events
+   
+    public UnityEvent onCrewHPUpdate;
+    public UnityEvent onMoneyUpdate;
+    public UnityEvent onShipHPUpdate;
+    public UnityEvent onCrewMoraleUpdate;
+    public UnityEvent<int> onFoodUpdate;
+
+    //Gameover Events
+    public UnityEvent onCrewHPZero;
+    public UnityEvent onShipHPZero;
+    public UnityEvent onCrewMoraleZero;
+
    
 
     void Start()
@@ -40,13 +59,15 @@ public class ResourceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        addFood(1);
+        Debug.Log("added food");
     }
 
 
     //Food
     public void addFood(int amount) {
         food += amount;
+        onFoodUpdate.Invoke(food);
     }
 
     public void removeFood(int amount) {
@@ -113,7 +134,7 @@ public class ResourceManager : MonoBehaviour
         else
         {
             shipHP = 0; // Ship is fully damaged
-            isShipHPZero = true;
+            onShipHPZero.Invoke();
         }
     }
 
@@ -148,7 +169,7 @@ public class ResourceManager : MonoBehaviour
         else
         {
             crewMorale = 0; // Morale is at its lowest point
-            isCrewMoraleZero = true;
+            onCrewMoraleZero.Invoke();
         }
     }
 
@@ -183,7 +204,7 @@ public class ResourceManager : MonoBehaviour
         else
         {
             crewHP = 0; // Crew has no health left
-            isCrewHPZero = true;
+            onCrewHPZero.Invoke();
         }
     }
 
