@@ -32,11 +32,10 @@ public class ResourceManager : MonoBehaviour
     bool isOutOfFood = false;
 
     //UI Events
-   
-    public UnityEvent onCrewHPUpdate;
-    public UnityEvent onMoneyUpdate;
-    public UnityEvent onShipHPUpdate;
-    public UnityEvent onCrewMoraleUpdate;
+    public UnityEvent<int> onCrewHPUpdate;
+    public UnityEvent<int> onMoneyUpdate;
+    public UnityEvent<int> onShipHPUpdate;
+    public UnityEvent<int> onCrewMoraleUpdate;
     public UnityEvent<int> onFoodUpdate;
 
     //Gameover Events
@@ -59,29 +58,34 @@ public class ResourceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        addFood(1);
-        Debug.Log("added food");
+       //Testing UI
+        setFood(-1);
+        setMoney(-1);
+        setShipHP(-1);
+        removeCrewHP(1);
+        removeCrewMorale(1);
     }
 
 
     //Food
-    public void addFood(int amount) {
-        food += amount;
-        onFoodUpdate.Invoke(food);
-    }
-
-    public void removeFood(int amount) {
+    public void setFood(int amount) {
         int temp = food;
-        
-        if ((temp - amount) >= 0)
+
+        //Check to see if adding the food will make food negtive 
+        if ((temp + amount) >= 0)
         {
-            food -= amount;
+           //If amount stays positive, add the food 
+            food += amount;
+            isOutOfFood = false;
         }
         else
         {
+           //Set food to 0 and the isOutOfFood bool to true
             food = 0;
             isOutOfFood = true;
         }
+        onFoodUpdate.Invoke(food);
+
     }
 
     public int getFood() { 
@@ -89,53 +93,50 @@ public class ResourceManager : MonoBehaviour
     }
 
     //Money
-    public void addMoney(int amount) {
-        money += amount;
-    }
-    public void removeMoney(int amount) {
-       int temp = money;
-        
-        if ((temp - amount) >= 0)
+    public void setMoney(int amount)
+    {
+        int temp = money;
+
+        //Check to see if adding the amount will make it negtive 
+        if ((temp + amount) >= 0)
         {
-            money -= amount;
+            //If amount stays positive, add the food 
+            money += amount;
         }
-        else { 
+        else
+        {
+            //Set money to 0 
             money = 0;
         }
+        onMoneyUpdate.Invoke(money);
+
     }
-    
+
     public int getMoney() { 
         return money;
     }
 
     //Ship HP
-    public void addShipHP(int amount)
+
+    public void setShipHP(int amount)
     {
         int temp = shipHP;
 
-        if ((temp + amount) <= 100)
+        //If adding the amount will keep the HP between 0 and 100, add the amount
+        if (temp + amount >= 0 && temp + amount <= 100)
         {
             shipHP += amount;
         }
-        else
+        //If the amount will make the HP go below 0, set the HP to 0
+        else if (temp + amount < 0)
         {
-            shipHP = 100; // Ship is at full HP
-        }
-    }
-
-    public void removeShipHP(int amount)
-    {
-        int temp = shipHP;
-
-        if ((temp - amount) >= 0)
-        {
-            shipHP -= amount;
-        }
-        else
-        {
-            shipHP = 0; // Ship is fully damaged
+            shipHP = 0;
             onShipHPZero.Invoke();
         }
+        //If the amount will make the HP go above 100, set the HP to 100
+        else if (temp + amount > 100) { shipHP = 100; }
+
+        onShipHPUpdate.Invoke(shipHP);
     }
 
     public int getShipHP()
@@ -156,6 +157,7 @@ public class ResourceManager : MonoBehaviour
         {
             crewMorale = 100; // Crew is at full morale
         }
+        onCrewMoraleUpdate.Invoke(crewMorale);
     }
 
     public void removeCrewMorale(int amount)
@@ -171,6 +173,7 @@ public class ResourceManager : MonoBehaviour
             crewMorale = 0; // Morale is at its lowest point
             onCrewMoraleZero.Invoke();
         }
+        onCrewMoraleUpdate.Invoke(crewMorale);
     }
 
     public int getCrewMorale()
@@ -191,6 +194,7 @@ public class ResourceManager : MonoBehaviour
         {
             crewHP = 100; 
         }
+        onCrewHPUpdate.Invoke(crewHP);
     }
 
     public void removeCrewHP(int amount)
@@ -206,6 +210,7 @@ public class ResourceManager : MonoBehaviour
             crewHP = 0; // Crew has no health left
             onCrewHPZero.Invoke();
         }
+        onCrewHPUpdate.Invoke(crewHP);
     }
 
     public int getCrewHP()
