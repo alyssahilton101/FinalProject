@@ -58,12 +58,7 @@ public class ResourceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       //Testing UI
-        setFood(-1);
-        setMoney(-1);
-        setShipHP(-1);
-        removeCrewHP(1);
-        removeCrewMorale(1);
+       
     }
 
 

@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     private Pace currentPace;
     private GameState gameState;
     bool isGameWon = false;
+    int foodConsumedPerDay = 10;
+    int distanceTraveledPerDay = 100;
+    private float currentTimer = 3;
 
     //Enums for game state and pace
     public enum Pace { Normal, Slow, Fast };
@@ -25,6 +28,13 @@ public class GameManager : MonoBehaviour
     public UnityEvent<int> onDaysPassedUpdate;
     public UnityEvent<int> onDistanceRemainingUpdate;
     public UnityEvent<Pace> onPaceUpdate;
+    public UnityEvent<int> onFoodUpdate;
+    
+    //Might not be needed but left them here for now
+    public UnityEvent<int> onShipHPUpdate;
+    public UnityEvent<int> onMoneyUpdate;
+    public UnityEvent<int> onCrewMoraleUpdate;
+    public UnityEvent<int> onCrewHPUpdate;
 
 
     // Start is called before the first frame update
@@ -44,14 +54,31 @@ public class GameManager : MonoBehaviour
             setDaysPassed(1);
             setDistanceRemaining(100);
         }
+
+       
+
+        if (gameState == GameState.Travel) {
+            if (currentTimer > 0)
+            {
+                currentTimer -= Time.deltaTime;
+                return;
+            }
+            travel();
+            currentTimer = 3;
+        }
     }
 
     //Contains the logic for traveling
     public void travel()
     {
-        if (gameState == GameState.Travel) { 
-            //logic
+        if (distanceRemaining != 0) { 
+            setDistanceRemaining(distanceTraveledPerDay);
+            onFoodUpdate.Invoke(-foodConsumedPerDay);
+            setDaysPassed(1);
+            //other logic will go here
+            //Mostly, it'll be checking to see if there should be an event
         }
+
     }
 
     //Contains the logic for stopping
