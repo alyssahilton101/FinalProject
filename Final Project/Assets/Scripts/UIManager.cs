@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI date;
     [SerializeField] TextMeshProUGUI pace;
     [SerializeField] TextMeshProUGUI distance;
+    [SerializeField] GameObject gameOverBox;
+    [SerializeField] TextMeshProUGUI gameOverText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,4 +64,10 @@ public class UIManager : MonoBehaviour
         distance.text = "Distance: " + amount;
     }
 
-}
+    public void gameOver(string message) {
+        gameOverBox.SetActive(true);
+        gameOverText.text = message;
+    }
+      
+
+    }

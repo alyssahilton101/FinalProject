@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent<int> onDistanceRemainingUpdate;
     public UnityEvent<Pace> onPaceUpdate;
     public UnityEvent<int> onFoodUpdate;
-    
+    public UnityEvent<string> onGameOver;
+
     //Might not be needed but left them here for now
     public UnityEvent<int> onShipHPUpdate;
     public UnityEvent<int> onMoneyUpdate;
@@ -48,14 +49,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Testing UI
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            setDaysPassed(1);
-            setDistanceRemaining(100);
-        }
-
-       
+     
 
         if (gameState == GameState.Travel) {
             if (currentTimer > 0)
@@ -101,10 +95,12 @@ public class GameManager : MonoBehaviour
     //Contains the logic for game over
     public void gameOver()
     {
-        if (gameState == GameState.GameOver)
+        if (isGameWon)
         {
-            //logic
+            onGameOver.Invoke("You win!");
         }
+        else { onGameOver.Invoke("Game Over"); }
+       
     }
 
     //Sets the pace and updates the UI
@@ -129,7 +125,7 @@ public class GameManager : MonoBehaviour
             //Set distance to 0 and declare the game over
             distanceRemaining = 0;
             isGameWon = true;
-            //TODO: Call game over function
+            gameOver();
         }
 
         onDistanceRemainingUpdate.Invoke(distanceRemaining);
