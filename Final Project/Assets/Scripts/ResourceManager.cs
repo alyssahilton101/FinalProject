@@ -26,13 +26,11 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     private int money;
     private int shipHP;
     private int crewMorale;
-    private int crewHP;
 
     //Adding some booleans
     bool isOutOfFood = false;
 
     //UI Events
-    public UnityEvent<int> onCrewHPUpdate;
     public UnityEvent<int> onMoneyUpdate;
     public UnityEvent<int> onShipHPUpdate;
     public UnityEvent<int> onCrewMoraleUpdate;
@@ -57,7 +55,6 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         food = 500;
         money = 500;
         crewMorale = 100;
-        crewHP = 100;
         shipHP = 100;
     }
 
@@ -145,35 +142,31 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         return shipHP;
     }
 
+
+
+
     // Crew Morale
-    public void addCrewMorale(int amount)
+
+    //Ship HP
+
+    public void setCrewMorale(int amount)
     {
         int temp = crewMorale;
 
-        if ((temp + amount) <= 100)
+        //If adding the amount will keep the morale between 0 and 100, add the amount
+        if (temp + amount >= 0 && temp + amount <= 100)
         {
             crewMorale += amount;
         }
-        else
+        //If the amount will make the morale go below 0, set the HP to 0
+        else if (temp + amount < 0)
         {
-            crewMorale = 100; // Crew is at full morale
-        }
-        onCrewMoraleUpdate.Invoke(crewMorale);
-    }
-
-    public void removeCrewMorale(int amount)
-    {
-        int temp = crewMorale;
-
-        if ((temp - amount) >= 0)
-        {
-            crewMorale -= amount;
-        }
-        else
-        {
-            crewMorale = 0; // Morale is at its lowest point
+            crewMorale = 0;
             onCrewMoraleZero.Invoke();
         }
+        //If the amount will make the HP go above 100, set the HP to 100
+        else if (temp + amount > 100) { crewMorale = 100; }
+
         onCrewMoraleUpdate.Invoke(crewMorale);
     }
 
@@ -182,42 +175,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         return crewMorale;
     }
 
-    // Crew HP
-    public void addCrewHP(int amount)
-    {
-        int temp = crewHP;
-
-        if ((temp + amount) <= 100)
-        {
-            crewHP += amount;
-        }
-        else
-        {
-            crewHP = 100; 
-        }
-        onCrewHPUpdate.Invoke(crewHP);
-    }
-
-    public void removeCrewHP(int amount)
-    {
-        int temp = crewHP;
-
-        if ((temp - amount) >= 0)
-        {
-            crewHP -= amount;
-        }
-        else
-        {
-            crewHP = 0; // Crew has no health left
-            onCrewHPZero.Invoke();
-        }
-        onCrewHPUpdate.Invoke(crewHP);
-    }
-
-    public int getCrewHP()
-    {
-        return crewHP;
-    }
+   
 
     public void OnEventTriggered(EventData eventData)
     {
@@ -239,10 +197,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
                         setShipHP(effect.Item2);
                         break;
                     case "crewMorale":
-                        addCrewMorale(effect.Item2);
-                        break;
-                    case "crewHP":
-                        addCrewHP(effect.Item2);
+                        setCrewMorale(effect.Item2);
                         break;
                     default:
                         break;

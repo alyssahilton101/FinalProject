@@ -60,8 +60,8 @@ public class EventManager : MonoBehaviour
         testEvent.description = "This is a test event";
         testEvent.isTwoChoices = false;
         testEvent.effects = new List<Tuple<string, int>>();
-        testEvent.effects.Add(new Tuple<string, int>("health", 10));
-        testEvent.effects.Add(new Tuple<string, int>("morale", -10));
+        testEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
+        testEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
 
         possibleEvents.Add(testEvent);
         currentEvent = testEvent;

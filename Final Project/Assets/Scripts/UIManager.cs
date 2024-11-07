@@ -51,12 +51,12 @@ public class UIManager : MonoBehaviour, IEventObserver
 
     public void updateShipHP(int amount)
     {
-        shipHP.text = "Ship HP: " + amount;
+        shipHP.text = "Ship HP: " + amount + "%";
     }
 
     public void updateMorale(int amount)
     {
-        shipHP.text = "Morale: " + amount;
+        crewMorale.text = "Morale: " + amount + "%";
     }
 
 
