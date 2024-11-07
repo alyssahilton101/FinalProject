@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,8 +18,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI date;
     [SerializeField] TextMeshProUGUI pace;
     [SerializeField] TextMeshProUGUI distance;
-    [SerializeField] GameObject gameOverBox;
-    [SerializeField] TextMeshProUGUI gameOverText;
+    [SerializeField] GameObject eventBox;
+    [SerializeField] TextMeshProUGUI eventText;
+    [SerializeField] TextMeshProUGUI eventTitle;
 
 
     // Start is called before the first frame update
@@ -48,26 +50,28 @@ public class UIManager : MonoBehaviour
         shipHP.text = "Ship HP: " + amount;
     }
 
-    public void updateDate(int amount)
+    public void updateMorale(int amount)
     {
-        //TODO: Make this a date
-        date.text = "Days Past: " + amount;
+        shipHP.text = "Morale: " + amount;
     }
 
-    public void updatePace(string speed)
-    {
-        pace.text = "Pace: " + speed;
-    }
 
     public void updateDistance(int amount)
     {
         distance.text = "Distance: " + amount;
     }
 
-    public void gameOver(string message) {
-        gameOverBox.SetActive(true);
-        gameOverText.text = message;
+    public void displayEvent(string title, string message) {
+        if (eventBox.activeSelf)
+        {
+            eventBox.SetActive(false);
+            eventText.text = "You should not see this.";
+        }
+        eventBox.SetActive(true);
+        eventTitle.text = title;
+        eventText.text = message;
     }
-      
 
-    }
+    
+
+}

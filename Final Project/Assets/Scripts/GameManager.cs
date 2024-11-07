@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     //Enums for game state and pace
     public enum Pace { Normal, Slow, Fast };
-    enum GameState { Travel, Stopped, Event, GameOver };
+    enum GameState { Travel, Stopped };
 
     //UI Events for updating key values
     public UnityEvent<int> onDaysPassedUpdate;
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent<Pace> onPaceUpdate;
     public UnityEvent<int> onFoodUpdate;
     public UnityEvent<string> onGameOver;
+    public UnityEvent<string, string> onEvent;
 
     //Might not be needed but left them here for now
     public UnityEvent<int> onShipHPUpdate;
@@ -59,7 +60,10 @@ public class GameManager : MonoBehaviour
             }
             travel();
             currentTimer = 3;
+            
         }
+
+
     }
 
     //Contains the logic for traveling
@@ -72,6 +76,11 @@ public class GameManager : MonoBehaviour
             //other logic will go here
             //Mostly, it'll be checking to see if there should be an event
         }
+        if (distanceRemaining == 0)
+        {
+            isGameWon = true;
+            gameOver();
+        }
 
     }
 
@@ -83,23 +92,16 @@ public class GameManager : MonoBehaviour
             //logic
         }
     }
-    //Contains the logic for events
-    public void eventPresent()
-    {
-        if (gameState == GameState.Event)
-        {
-            //logic
-        }
-    }
+ 
 
     //Contains the logic for game over
     public void gameOver()
     {
         if (isGameWon)
         {
-            onGameOver.Invoke("You win!");
+            onEvent.Invoke("You won!", "Congraulations, you did it! Yipee!");
         }
-        else { onGameOver.Invoke("Game Over"); }
+        else { onEvent.Invoke("Game Over", "You lost whomp-whomp :("); }
        
     }
 
