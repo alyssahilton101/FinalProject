@@ -32,6 +32,9 @@ public class EventData : ScriptableObject
     //Each element is a tuple of the resoruce name and the amount of change
     public List<Tuple<string, int>> effects;
 
+    //Rarity of the event. Higher rarity means less likely to occur
+    public int rarity;
+
 
 }
 [System.Serializable]
@@ -61,7 +64,8 @@ public class EventManager : MonoBehaviour
         testEvent.isTwoChoices = false;
         testEvent.effects = new List<Tuple<string, int>>();
         testEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
-        testEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
+        testEvent.effects.Add(new Tuple<string, int>("crewMorale", -80));
+        testEvent.rarity = 1;
 
         possibleEvents.Add(testEvent);
         currentEvent = testEvent;

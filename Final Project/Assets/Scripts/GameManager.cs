@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent<Pace> onPaceUpdate;
     public UnityEvent<int> onFoodUpdate;
     public UnityEvent<string> onGameOver;
-    public UnityEvent<string, string> onEvent;
+    public UnityEvent<string, string, bool> onEvent;
 
     //Might not be needed but left them here for now
     public UnityEvent<int> onShipHPUpdate;
@@ -113,9 +113,13 @@ public class GameManager : MonoBehaviour
     {
         if (isGameWon)
         {
-            onEvent.Invoke("You won!", "Congraulations, you did it! Yipee!");
+            gameState = GameState.Stopped;
+            onEvent.Invoke("You won!", "Congraulations, you did it! Yipee!", true);
         }
-        else { onEvent.Invoke("Game Over", "You lost whomp-whomp :("); }
+        else {
+            gameState = GameState.Stopped;
+            onEvent.Invoke("Game Over", "You lost whomp-whomp :(", false); 
+        }
        
     }
 
