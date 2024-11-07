@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, IEventObserver
 {
     //Responisble for handling all resources (food, money, HP, ect)
     //Should create events for the UI to see and update in response and should NOT update the UI itself (observer pattern)
@@ -43,10 +43,16 @@ public class ResourceManager : MonoBehaviour
     public UnityEvent onShipHPZero;
     public UnityEvent onCrewMoraleZero;
 
-   
+    //Event Manager
+    EventManager eventManager;
+
+
 
     void Start()
     {
+        eventManager = FindObjectOfType<EventManager>();
+        eventManager.RegisterObserver(this);
+
         //Temp: Giving resources starting amounts. Will update later
         food = 500;
         money = 500;
@@ -211,6 +217,38 @@ public class ResourceManager : MonoBehaviour
     public int getCrewHP()
     {
         return crewHP;
+    }
+
+    public void OnEventTriggered(EventData eventData)
+    {
+        //Check to see if the event has any effects
+        if (eventData.effects.Count > 0)
+        {
+            //Loop through the effects and apply them
+            foreach (Tuple<string, int> effect in eventData.effects)
+            {
+                switch (effect.Item1)
+                {
+                    case "food":
+                        setFood(effect.Item2);
+                        break;
+                    case "money":
+                        setMoney(effect.Item2);
+                        break;
+                    case "shipHP":
+                        setShipHP(effect.Item2);
+                        break;
+                    case "crewMorale":
+                        addCrewMorale(effect.Item2);
+                        break;
+                    case "crewHP":
+                        addCrewHP(effect.Item2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
 }

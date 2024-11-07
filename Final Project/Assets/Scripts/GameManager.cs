@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     public UnityEvent<int> onCrewMoraleUpdate;
     public UnityEvent<int> onCrewHPUpdate;
 
+    //EventManager
+    EventManager eventManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,13 +48,15 @@ public class GameManager : MonoBehaviour
         //Temp: Giving starting values
         daysPassed = 0;
         distanceRemaining = 1000;
+
+        //Setting up event manager (possibly temporary)
+        eventManager = FindObjectOfType<EventManager>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-     
-
         if (gameState == GameState.Travel) {
             if (currentTimer > 0)
             {
@@ -59,8 +64,11 @@ public class GameManager : MonoBehaviour
                 return;
             }
             travel();
-            currentTimer = 3;
+            currentTimer = 2;
             
+        }
+        if (gameState == GameState.Stopped) {
+            //Stuff here someday
         }
 
 
@@ -75,6 +83,12 @@ public class GameManager : MonoBehaviour
             setDaysPassed(1);
             //other logic will go here
             //Mostly, it'll be checking to see if there should be an event
+        }
+        if (distanceRemaining == 900 || distanceRemaining == 400)
+        {
+            //trigger event
+            eventManager.TriggerRandomEvent();
+
         }
         if (distanceRemaining == 0)
         {
