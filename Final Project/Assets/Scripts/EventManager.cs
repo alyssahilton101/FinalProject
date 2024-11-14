@@ -132,5 +132,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public void ChoiceMade(bool choice)
+    {
+        //This is where the effects of the event will be applied
+        //For now, just print the choice to the console
+        Debug.Log("Choice made: " + choice);
+    }
+
 
 }

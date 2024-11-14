@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     bool isGameWon = false;
     int foodConsumedPerDay = 10;
-    int distanceTraveledPerDay = 100;
+    int distanceTraveledPerDay = 1;
     private float currentTimer = 3;
 
     //Enums for game state and pace
@@ -41,16 +41,26 @@ public class GameManager : MonoBehaviour
     //EventManager
     EventManager eventManager;
 
+    //Ship sprite and key values
+    [SerializeField] GameObject ship;
+    [SerializeField] GameObject shipStartPosition;
+    Vector3 shipEndPosition;
+    Vector3 island1Position;
+    Vector3 island2Position;
+    Vector3 island3Position;
 
     // Start is called before the first frame update
     void Start()
     {
         //Temp: Giving starting values
         daysPassed = 0;
-        distanceRemaining = 1000;
+        distanceRemaining = 75;
 
         //Setting up event manager (possibly temporary)
         eventManager = FindObjectOfType<EventManager>();
+
+        //Setting up the ship
+        ship.transform.position = shipStartPosition.transform.position;
 
     }
 
@@ -81,10 +91,12 @@ public class GameManager : MonoBehaviour
             setDistanceRemaining(distanceTraveledPerDay);
             onFoodUpdate.Invoke(-foodConsumedPerDay);
             setDaysPassed(1);
+            ship.transform.position = new Vector3(ship.transform.position.x + 0.1f, ship.transform.position.y, 0);
             //other logic will go here
             //Mostly, it'll be checking to see if there should be an event
+
         }
-        if (distanceRemaining == 900 || distanceRemaining == 600 || distanceRemaining == 300)
+        if (distanceRemaining == 16 || distanceRemaining == 37 || distanceRemaining == 58)
         {
             //trigger island event
             eventManager.TriggerIslandEvent();
@@ -93,7 +105,7 @@ public class GameManager : MonoBehaviour
         if (distanceRemaining == 0)
         {
             isGameWon = true;
-            gameOver();
+            gameOver("Congraulations, you did it! Yipee!");
         }
 
     }
@@ -109,17 +121,18 @@ public class GameManager : MonoBehaviour
  
 
     //Contains the logic for game over
-    public void gameOver()
+    public void gameOver(string message)
     {
+        Debug.Log(message);
         if (isGameWon)
         {
             gameState = GameState.Stopped;
-            onEvent.Invoke("You won!", "Congraulations, you did it! Yipee!");
+            onEvent.Invoke("You won!", message);
         }
         else {
-            //TODO: Update to take a string so all game overs have different text
+         
             gameState = GameState.Stopped;
-            onEvent.Invoke("Game Over", "You lost whomp-whomp :("); 
+            onEvent.Invoke("Game Over", message); 
         }
        
     }
@@ -146,7 +159,7 @@ public class GameManager : MonoBehaviour
             //Set distance to 0 and declare the game over
             distanceRemaining = 0;
             isGameWon = true;
-            gameOver();
+            gameOver("Congraulations, you did it! Yipee!");
         }
 
         onDistanceRemainingUpdate.Invoke(distanceRemaining);

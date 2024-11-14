@@ -27,9 +27,6 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     private int shipHP;
     private int crewMorale;
 
-    //Adding some booleans
-    bool isOutOfFood = false;
-
     //UI Events
     public UnityEvent<int> onMoneyUpdate;
     public UnityEvent<int> onShipHPUpdate;
@@ -37,9 +34,10 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     public UnityEvent<int> onFoodUpdate;
 
     //Gameover Events
-    public UnityEvent onCrewHPZero;
-    public UnityEvent onShipHPZero;
-    public UnityEvent onCrewMoraleZero;
+    public UnityEvent<string> onCrewHPZero;
+    public UnityEvent<string> onShipHPZero;
+    public UnityEvent<string> onCrewMoraleZero;
+    public UnityEvent<string> onFoodZero;
 
     //Event Manager
     EventManager eventManager;
@@ -51,11 +49,12 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         eventManager = FindObjectOfType<EventManager>();
         eventManager.RegisterObserver(this);
 
-        //Temp: Giving resources starting amounts. Will update later
-        food = 500;
-        money = 500;
-        crewMorale = 100;
-        shipHP = 100;
+        //Giving resources starting amounts. Will update later
+        setFood(500);
+        setMoney(500);
+        setShipHP(100);
+        setCrewMorale(100);
+
     }
 
     // Update is called once per frame
@@ -74,13 +73,13 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         {
            //If amount stays positive, add the food 
             food += amount;
-            isOutOfFood = false;
         }
         else
         {
            //Set food to 0 and the isOutOfFood bool to true
             food = 0;
-            isOutOfFood = true;
+            Debug.Log("Ye stared");
+            onFoodZero.Invoke("Ye starved to death");
         }
         onFoodUpdate.Invoke(food);
 
@@ -129,7 +128,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         else if (temp + amount < 0)
         {
             shipHP = 0;
-            onShipHPZero.Invoke();
+            onShipHPZero.Invoke("Ye sank to the deep");
         }
         //If the amount will make the HP go above 100, set the HP to 100
         else if (temp + amount > 100) { shipHP = 100; }
@@ -162,7 +161,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         else if (temp + amount < 0)
         {
             crewMorale = 0;
-            onCrewMoraleZero.Invoke();
+            onCrewMoraleZero.Invoke("Ye was mutinited");
         }
         //If the amount will make the HP go above 100, set the HP to 100
         else if (temp + amount > 100) { crewMorale = 100; }
@@ -203,6 +202,38 @@ public class ResourceManager : MonoBehaviour, IEventObserver
                         break;
                 }
             }
+        }
+    }
+
+    //Shop methods
+    public void BuyFood()
+    {
+        int cost = 10;
+        int amount = 50;
+        if (money >= cost)
+        {
+            setMoney(-cost);
+            setFood(amount);
+        }
+    }
+    public void BuyShipHP()
+    {
+        int cost = 100;
+        int amount = 100;
+        if (money >= cost)
+        {
+            setMoney(-cost);
+            setShipHP(amount);
+        }
+    }
+    public void BuyCrewMorale()
+    {
+        int cost = 50;
+        int amount = 100;
+        if (money >= cost)
+        {
+            setMoney(-cost);
+            setCrewMorale(amount);
         }
     }
 

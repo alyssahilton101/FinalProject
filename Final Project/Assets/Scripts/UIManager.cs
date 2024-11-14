@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour, IEventObserver
 {
@@ -24,6 +25,8 @@ public class UIManager : MonoBehaviour, IEventObserver
     [SerializeField] GameObject eventOneButton;
     [SerializeField] GameObject eventTwoButton;
     [SerializeField] GameObject storeBox;
+    [SerializeField] UnityEngine.UI.Button yesButton;
+    [SerializeField] UnityEngine.UI.Button noButton;
 
     EventManager eventManager;
     public UnityEvent onCloseMenu;
@@ -79,14 +82,25 @@ public class UIManager : MonoBehaviour, IEventObserver
         {
             eventOneButton.SetActive(false);
             eventTwoButton.SetActive(true);
-
-
         }
         else
         {
             eventTwoButton.SetActive(false);
             eventOneButton.SetActive(true);
         }
+    }
+
+    public void displayTwoChoiceEvent(string title, string message) {
+        // Clear any previous listeners
+        yesButton.onClick.RemoveAllListeners();
+        noButton.onClick.RemoveAllListeners();
+
+        //Add the new listeners
+        yesButton.onClick.AddListener(() => eventManager.ChoiceMade(true));
+        noButton.onClick.AddListener(() => eventManager.ChoiceMade(false));
+
+        displayEvent(title, message, true);
+
     }
 
     public void DisplayStore() {
@@ -118,7 +132,7 @@ public class UIManager : MonoBehaviour, IEventObserver
         displayEvent(title, message, false);
         //Set the button to restart the game
         eventOneButton.GetComponentInChildren<TextMeshProUGUI>().text = "Restart";
-        eventOneButton.GetComponent<Button>().onClick.AddListener(RestartGame);
+        eventOneButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(RestartGame);
     }
 
     public void RestartGame()
