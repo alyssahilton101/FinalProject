@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
             travel();
-            currentTimer = 2;
+            currentTimer = 1;
             
         }
         if (gameState == GameState.Stopped) {
@@ -84,10 +84,10 @@ public class GameManager : MonoBehaviour
             //other logic will go here
             //Mostly, it'll be checking to see if there should be an event
         }
-        if (distanceRemaining == 900 || distanceRemaining == 400)
+        if (distanceRemaining == 900 || distanceRemaining == 600 || distanceRemaining == 300)
         {
-            //trigger event
-            eventManager.TriggerRandomEvent();
+            //trigger island event
+            eventManager.TriggerIslandEvent();
 
         }
         if (distanceRemaining == 0)
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
             onEvent.Invoke("You won!", "Congraulations, you did it! Yipee!");
         }
         else {
+            //TODO: Update to take a string so all game overs have different text
             gameState = GameState.Stopped;
             onEvent.Invoke("Game Over", "You lost whomp-whomp :("); 
         }
@@ -158,4 +159,17 @@ public class GameManager : MonoBehaviour
         onDaysPassedUpdate.Invoke(daysPassed);
     }
 
+    public void swapState() {
+
+        if (gameState == GameState.Travel)
+        {
+            gameState = GameState.Stopped;
+        }
+        else
+        {
+            gameState = GameState.Travel;
+        }
+    }
+
+   
 }

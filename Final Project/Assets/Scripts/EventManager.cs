@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using UnityEngine.Events;
 
 
 //Referenced the following in creating this:
@@ -49,28 +50,38 @@ public class EventManager : MonoBehaviour
     public List<EventData> possibleEvents;
     private EventData currentEvent;
     private List<IEventObserver> observers = new List<IEventObserver>();
-    EventData testEvent;
 
-    GameManager gameManager;
+    //Events
+    public EventData islandEvent;
+    public EventData stormEvent;
+    public UnityEvent onEventTriggered;
+
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //For testing, setting up event list with 1 test event
+        //Setting up all the events. Is there a better way to do this? Probably lol
         possibleEvents = new List<EventData>();
-        testEvent = ScriptableObject.CreateInstance<EventData>();
-        testEvent.eventTitle = "Test Event";
-        testEvent.description = "This is a test event";
-        testEvent.isTwoChoices = false;
-        testEvent.effects = new List<Tuple<string, int>>();
-        testEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
-        testEvent.effects.Add(new Tuple<string, int>("crewMorale", -80));
-        testEvent.rarity = 1;
 
-        possibleEvents.Add(testEvent);
-        currentEvent = testEvent;
+        //Island Event
+        islandEvent = ScriptableObject.CreateInstance<EventData>();
+        islandEvent.eventTitle = "Land Ho!";
+        islandEvent.description = "Through the spyglass, ye see a shore lined with buildings. Seems this could be a good chance to rest or snag supplies. Do ye make for shore?";
+        islandEvent.isTwoChoices = false; //fix
+        islandEvent.effects = new List<Tuple<string, int>>();
+        islandEvent.rarity = 1;
+
+        //Storm Event
+        stormEvent = ScriptableObject.CreateInstance<EventData>();
+        stormEvent.eventTitle = "Storm approaches!";
+        stormEvent.description = "This is an unfinished event";
+        stormEvent.isTwoChoices = true;
+        stormEvent.effects = new List<Tuple<string, int>>();
+        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
+        stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
+        stormEvent.rarity = 1;
 
 
     }
@@ -102,9 +113,15 @@ public class EventManager : MonoBehaviour
         // int randomIndex = UnityEngine.Random.Range(0, possibleEvents.Count);
         //currentEvent = possibleEvents[randomIndex];
 
-        currentEvent = testEvent;
+       // currentEvent = testEvent;
 
+       // NotifyObservers(currentEvent);
+    }
+    public void TriggerIslandEvent() {
+        currentEvent = islandEvent;
         NotifyObservers(currentEvent);
+        onEventTriggered.Invoke();
+
     }
 
     private void NotifyObservers(EventData eventData)

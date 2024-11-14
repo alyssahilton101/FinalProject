@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -22,8 +23,10 @@ public class UIManager : MonoBehaviour, IEventObserver
     [SerializeField] TextMeshProUGUI eventTitle;
     [SerializeField] GameObject eventOneButton;
     [SerializeField] GameObject eventTwoButton;
+    [SerializeField] GameObject storeBox;
 
     EventManager eventManager;
+    public UnityEvent onCloseMenu;
 
 
     // Start is called before the first frame update
@@ -31,6 +34,7 @@ public class UIManager : MonoBehaviour, IEventObserver
     {
         eventManager = FindObjectOfType<EventManager>();
         eventManager.RegisterObserver(this);
+        
     }
 
     // Update is called once per frame
@@ -40,23 +44,23 @@ public class UIManager : MonoBehaviour, IEventObserver
     }
 
     public void updateFood(int amount) {
-        food.text = "Food: " + amount;
+        food.text = ""+ amount;
     }
 
     public void updateMoney(int amount)
     {
-        money.text = "Money: " + amount;
+        money.text = "" + amount;
     }
 
 
     public void updateShipHP(int amount)
     {
-        shipHP.text = "Ship HP: " + amount + "%";
+        shipHP.text = "" + amount + "%";
     }
 
     public void updateMorale(int amount)
     {
-        crewMorale.text = "Morale: " + amount + "%";
+        crewMorale.text = "" + amount + "%";
     }
 
 
@@ -85,15 +89,29 @@ public class UIManager : MonoBehaviour, IEventObserver
         }
     }
 
+    public void DisplayStore() {
+        storeBox.SetActive(true);
+    }
+    public void CloseStore() { 
+        storeBox.SetActive(false);
+        onCloseMenu.Invoke();
+    }
+
     public void OnEventTriggered(EventData eventData)
     {
-        displayEvent(eventData.eventTitle, eventData.description, eventData.isTwoChoices);
+        if (eventData.isTwoChoices) {
+            Debug.Log("This event has two choices, gross");
+        }
+        else {
+            displayEvent(eventData.eventTitle, eventData.description, eventData.isTwoChoices);
+        }
     }
 
     public void CloseEventBox()
     {
         Debug.Log("I am being clicked");
         eventBox.SetActive(false);
+        onCloseMenu.Invoke();
     }
 
     public void displayGameOver(string title, string message) {
