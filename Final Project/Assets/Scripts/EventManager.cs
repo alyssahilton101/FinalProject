@@ -36,6 +36,10 @@ public class EventData : ScriptableObject
     //Rarity of the event. Higher rarity means less likely to occur
     public int rarity;
 
+    //Method for yes and no choices
+    public Action ifYes;
+    public Action ifNo;
+
 
 
 
@@ -56,6 +60,9 @@ public class EventManager : MonoBehaviour
     public EventData stormEvent;
     public UnityEvent onEventTriggered;
 
+    //Variable version of a method for passing to choice
+    public delegate void ToDo(bool choice);
+
 
 
 
@@ -69,9 +76,11 @@ public class EventManager : MonoBehaviour
         islandEvent = ScriptableObject.CreateInstance<EventData>();
         islandEvent.eventTitle = "Land Ho!";
         islandEvent.description = "Through the spyglass, ye see a shore lined with buildings. Seems this could be a good chance to rest or snag supplies. Do ye make for shore?";
-        islandEvent.isTwoChoices = false; //fix
+        islandEvent.isTwoChoices = true; 
         islandEvent.effects = new List<Tuple<string, int>>();
         islandEvent.rarity = 1;
+        islandEvent.ifYes = () => { Debug.Log("Yes"); };
+        islandEvent.ifNo = () => { Debug.Log("No"); };
 
         //Storm Event
         stormEvent = ScriptableObject.CreateInstance<EventData>();
@@ -134,10 +143,12 @@ public class EventManager : MonoBehaviour
 
     public void ChoiceMade(bool choice)
     {
+        //ToDo();
+        
+        
         //This is where the effects of the event will be applied
         //For now, just print the choice to the console
         Debug.Log("Choice made: " + choice);
     }
-
 
 }

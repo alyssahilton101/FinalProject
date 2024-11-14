@@ -295,7 +295,9 @@ MonoBehaviour:
   eventTitle: {fileID: 187669905}
   eventOneButton: {fileID: 897562331}
   eventTwoButton: {fileID: 1824443355}
-  storeBox: {fileID: 0}
+  storeBox: {fileID: 1780660104}
+  yesButton: {fileID: 0}
+  noButton: {fileID: 0}
   onCloseMenu:
     m_PersistentCalls:
       m_Calls:
@@ -714,6 +716,8 @@ MonoBehaviour:
   onCrewHPUpdate:
     m_PersistentCalls:
       m_Calls: []
+  ship: {fileID: 1645413695}
+  shipStartPosition: {fileID: 1399252267}
 --- !u!4 &218714065
 Transform:
   m_ObjectHideFlags: 0
@@ -1293,9 +1297,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 45688547}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseEventBox
+      - m_Target: {fileID: 1488665297}
+        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
+        m_MethodName: BuyShipHP
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2403,6 +2407,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1645413696}
+  - {fileID: 1399252268}
   - {fileID: 1725965724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3178,6 +3183,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344539218}
   m_CullTransparentMesh: 1
+--- !u!1 &1399252267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399252268}
+  m_Layer: 0
+  m_Name: ShipStartPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1399252268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399252267}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -271.7, y: -146.1, z: 0}
+  m_LocalScale: {x: 0.056934748, y: 0.056934748, z: 0.056934748}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 695179688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1399821250
 GameObject:
   m_ObjectHideFlags: 0
@@ -3612,7 +3648,7 @@ MonoBehaviour:
       - m_Target: {fileID: 218714064}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: gameOver
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3627,7 +3663,7 @@ MonoBehaviour:
       - m_Target: {fileID: 218714064}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: gameOver
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3642,7 +3678,22 @@ MonoBehaviour:
       - m_Target: {fileID: 218714064}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: gameOver
-        m_Mode: 1
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onFoodZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 218714064}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: gameOver
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4119,7 +4170,7 @@ Transform:
   m_GameObject: {fileID: 1645413695}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -271.64, y: -146.1, z: 0}
+  m_LocalPosition: {x: -271.7, y: -146.1, z: 0}
   m_LocalScale: {x: 0.056934748, y: 0.056934748, z: 0.056934748}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4865,7 +4916,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 45688547}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseEventBox
+        m_MethodName: CloseStore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4996,9 +5047,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 45688547}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseEventBox
+      - m_Target: {fileID: 1488665297}
+        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
+        m_MethodName: BuyCrewMorale
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5167,9 +5218,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 45688547}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseEventBox
+      - m_Target: {fileID: 1488665297}
+        m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
+        m_MethodName: BuyFood
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

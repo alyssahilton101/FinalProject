@@ -115,6 +115,7 @@ public class UIManager : MonoBehaviour, IEventObserver
     {
         if (eventData.isTwoChoices) {
             Debug.Log("This event has two choices, gross");
+            displayTwoChoiceEvent(eventData.eventTitle, eventData.description);
         }
         else {
             displayEvent(eventData.eventTitle, eventData.description, eventData.isTwoChoices);
