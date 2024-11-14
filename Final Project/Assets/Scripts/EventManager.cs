@@ -36,6 +36,8 @@ public class EventData : ScriptableObject
     public int rarity;
 
 
+
+
 }
 [System.Serializable]
 

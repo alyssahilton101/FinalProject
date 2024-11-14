@@ -76,6 +76,7 @@ public class UIManager : MonoBehaviour, IEventObserver
             eventOneButton.SetActive(false);
             eventTwoButton.SetActive(true);
 
+
         }
         else
         {
@@ -93,6 +94,18 @@ public class UIManager : MonoBehaviour, IEventObserver
     {
         Debug.Log("I am being clicked");
         eventBox.SetActive(false);
+    }
+
+    public void displayGameOver(string title, string message) {
+        displayEvent(title, message, false);
+        //Set the button to restart the game
+        eventOneButton.GetComponentInChildren<TextMeshProUGUI>().text = "Restart";
+        eventOneButton.GetComponent<Button>().onClick.AddListener(RestartGame);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
     }
 
 
