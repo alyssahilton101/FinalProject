@@ -59,6 +59,8 @@ public class EventManager : MonoBehaviour
     public EventData islandEvent;
     public EventData stormEvent;
     public UnityEvent onEventTriggered;
+    public UnityEvent onIslandEventYes;
+    public UnityEvent onCloseWindow;
 
     //Variable version of a method for passing to choice
     public delegate void ToDo(bool choice);
@@ -79,14 +81,14 @@ public class EventManager : MonoBehaviour
         islandEvent.isTwoChoices = true; 
         islandEvent.effects = new List<Tuple<string, int>>();
         islandEvent.rarity = 1;
-        islandEvent.ifYes = () => { Debug.Log("Yes"); };
-        islandEvent.ifNo = () => { Debug.Log("No"); };
+        islandEvent.ifYes = () => { Debug.Log("Yes"); onIslandEventYes.Invoke(); };
+        islandEvent.ifNo = () => { Debug.Log("No"); onCloseWindow.Invoke(); };
 
         //Storm Event
         stormEvent = ScriptableObject.CreateInstance<EventData>();
         stormEvent.eventTitle = "Storm approaches!";
         stormEvent.description = "This is an unfinished event";
-        stormEvent.isTwoChoices = true;
+        stormEvent.isTwoChoices = false;
         stormEvent.effects = new List<Tuple<string, int>>();
         stormEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
         stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
@@ -143,12 +145,15 @@ public class EventManager : MonoBehaviour
 
     public void ChoiceMade(bool choice)
     {
-        //ToDo();
-        
-        
-        //This is where the effects of the event will be applied
-        //For now, just print the choice to the console
         Debug.Log("Choice made: " + choice);
+        if (choice)
+        {
+            currentEvent.ifYes();
+        }
+        else
+        {
+            currentEvent.ifNo();
+        }
     }
 
 }

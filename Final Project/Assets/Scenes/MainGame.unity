@@ -296,8 +296,8 @@ MonoBehaviour:
   eventOneButton: {fileID: 897562331}
   eventTwoButton: {fileID: 1824443355}
   storeBox: {fileID: 1780660104}
-  yesButton: {fileID: 0}
-  noButton: {fileID: 0}
+  yesButton: {fileID: 391155388}
+  noButton: {fileID: 1577418217}
   onCloseMenu:
     m_PersistentCalls:
       m_Calls:
