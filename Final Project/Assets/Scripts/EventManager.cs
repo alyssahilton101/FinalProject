@@ -58,6 +58,7 @@ public class EventManager : MonoBehaviour
     //Events
     public EventData islandEvent;
     public EventData stormEvent;
+    public EventData treasureEvent;
     public UnityEvent onEventTriggered;
     public UnityEvent onIslandEventYes;
     public UnityEvent onCloseWindow;
@@ -86,13 +87,24 @@ public class EventManager : MonoBehaviour
 
         //Storm Event
         stormEvent = ScriptableObject.CreateInstance<EventData>();
-        stormEvent.eventTitle = "Storm approaches!";
-        stormEvent.description = "This is an unfinished event";
+        stormEvent.eventTitle = "Storm!";
+        stormEvent.description = "This is an unfinished event. -30 hp and -10 morale";
         stormEvent.isTwoChoices = false;
         stormEvent.effects = new List<Tuple<string, int>>();
-        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
+        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -30));
         stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
         stormEvent.rarity = 1;
+        possibleEvents.Add(stormEvent);
+
+        //Treasure Event
+        treasureEvent = ScriptableObject.CreateInstance<EventData>();
+        treasureEvent.eventTitle = "Treasure!";
+        treasureEvent.description = "This is an unfinished event. +100 gold";
+        treasureEvent.isTwoChoices = false;
+        treasureEvent.effects = new List<Tuple<string, int>>();
+        treasureEvent.effects.Add(new Tuple<string, int>("money", 100));
+        treasureEvent.rarity = 1;
+        possibleEvents.Add(treasureEvent);
 
 
     }
@@ -121,12 +133,10 @@ public class EventManager : MonoBehaviour
 
     public void TriggerRandomEvent()
     {
-        // int randomIndex = UnityEngine.Random.Range(0, possibleEvents.Count);
-        //currentEvent = possibleEvents[randomIndex];
-
-       // currentEvent = testEvent;
-
-       // NotifyObservers(currentEvent);
+        int randomIndex = UnityEngine.Random.Range(0, possibleEvents.Count);
+        currentEvent = possibleEvents[randomIndex];
+        NotifyObservers(currentEvent);
+        onEventTriggered.Invoke();
     }
     public void TriggerIslandEvent() {
         currentEvent = islandEvent;

@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour, IEventObserver
     }
 
     public void DisplayStore() {
+        eventBox.SetActive(false);
         storeBox.SetActive(true);
     }
     public void CloseStore() { 

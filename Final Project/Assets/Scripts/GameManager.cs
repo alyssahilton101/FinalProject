@@ -102,10 +102,15 @@ public class GameManager : MonoBehaviour
             eventManager.TriggerIslandEvent();
 
         }
+        if(distanceRemaining % 10 == 0)
+        {
+            //trigger random event
+            eventManager.TriggerRandomEvent();
+        }
         if (distanceRemaining == 0)
         {
             isGameWon = true;
-            gameOver("Congraulations, you did it! Yipee!");
+            gameOver("Against all odds, ye’ve carved yer own legend on the high seas. Riches and renown be yers, Captain—may this be the first of many victories!");
         }
 
     }
