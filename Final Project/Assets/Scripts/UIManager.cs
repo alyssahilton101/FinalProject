@@ -30,7 +30,10 @@ public class UIManager : MonoBehaviour, IEventObserver
 
     EventManager eventManager;
     public UnityEvent onCloseMenu;
+    BackgroundController backgroundController;
 
+    //For resetting environment on game over
+    [SerializeField] GameObject environment;
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +135,10 @@ public class UIManager : MonoBehaviour, IEventObserver
 
     public void displayGameOver(string title, string message) {
         displayEvent(title, message, false);
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        gameManager.gameState = GameManager.GameState.Stopped;
+
         //Set the button to restart the game
         eventOneButton.GetComponentInChildren<TextMeshProUGUI>().text = "Restart";
         eventOneButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(RestartGame);
@@ -139,7 +146,11 @@ public class UIManager : MonoBehaviour, IEventObserver
 
     public void RestartGame()
     {
+       
+        backgroundController = FindObjectOfType<BackgroundController>();
+        backgroundController.ResetBackgrounds();
         SceneManager.LoadScene(1);
+
     }
 
 

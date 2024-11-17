@@ -2748,12 +2748,43 @@ MonoBehaviour:
   possibleEvents: []
   islandEvent: {fileID: 0}
   stormEvent: {fileID: 0}
+  treasureEvent: {fileID: 0}
   onEventTriggered:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 218714064}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: swapState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onIslandEventYes:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 45688547}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayStore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCloseWindow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 45688547}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: CloseEventBox
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3669,7 +3700,9 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "The ship\u2019s timbers splinter and break, and before
+            ye can even cry out, the sea swallows her whole. Yer voyage ends in darkness,
+            claimed by the deep that holds all who wander too far. "
           m_BoolArgument: 0
         m_CallState: 2
   onCrewMoraleZero:
@@ -3684,7 +3717,9 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "The crew has had enough o\u2019 hard times and empty
+            promises. Led by angry voices, the mutineers turn on ye, casting ye overboard
+            to fend for yerself in the unforgiving waves. "
           m_BoolArgument: 0
         m_CallState: 2
   onFoodZero:
@@ -3699,7 +3734,8 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: ' Hunger gnaws like a cruel beast, and with no more provisions,
+            yer fate is sealed. The ocean stretches out, but the voyage ends here.'
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!4 &1488665298

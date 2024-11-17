@@ -76,9 +76,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         }
         else
         {
-           //Set food to 0 and the isOutOfFood bool to true
             food = 0;
-            Debug.Log("Ye stared");
             onFoodZero.Invoke("Ye starved to death");
         }
         onFoodUpdate.Invoke(food);
@@ -120,12 +118,12 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         int temp = shipHP;
 
         //If adding the amount will keep the HP between 0 and 100, add the amount
-        if (temp + amount >= 0 && temp + amount <= 100)
+        if (temp + amount > 0 && temp + amount <= 100)
         {
             shipHP += amount;
         }
         //If the amount will make the HP go below 0, set the HP to 0
-        else if (temp + amount < 0)
+        else if (temp + amount <= 0)
         {
             shipHP = 0;
             onShipHPZero.Invoke("Ye sank to the deep");
@@ -153,12 +151,12 @@ public class ResourceManager : MonoBehaviour, IEventObserver
         int temp = crewMorale;
 
         //If adding the amount will keep the morale between 0 and 100, add the amount
-        if (temp + amount >= 0 && temp + amount <= 100)
+        if (temp + amount > 0 && temp + amount <= 100)
         {
             crewMorale += amount;
         }
         //If the amount will make the morale go below 0, set the HP to 0
-        else if (temp + amount < 0)
+        else if (temp + amount <= 0)
         {
             crewMorale = 0;
             onCrewMoraleZero.Invoke("Ye was mutinited");
