@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour, IEventObserver
     [SerializeField] GameObject storeBox;
     [SerializeField] UnityEngine.UI.Button yesButton;
     [SerializeField] UnityEngine.UI.Button noButton;
+    [SerializeField] AudioClip buttonSound;
 
     EventManager eventManager;
     public UnityEvent onCloseMenu;
@@ -98,6 +99,10 @@ public class UIManager : MonoBehaviour, IEventObserver
         yesButton.onClick.RemoveAllListeners();
         noButton.onClick.RemoveAllListeners();
 
+        //Add back sound onClick
+        yesButton.onClick.AddListener(PlayButtonSound);
+        noButton.onClick.AddListener(PlayButtonSound);
+
         //Add the new listeners
         yesButton.onClick.AddListener(() => eventManager.ChoiceMade(true));
         noButton.onClick.AddListener(() => eventManager.ChoiceMade(false));
@@ -136,8 +141,6 @@ public class UIManager : MonoBehaviour, IEventObserver
     public void displayGameOver(string title, string message) {
         displayEvent(title, message, false);
 
-        GameManager gameManager = FindObjectOfType<GameManager>();
-        gameManager.gameState = GameManager.GameState.Stopped;
 
         //Set the button to restart the game
         eventOneButton.GetComponentInChildren<TextMeshProUGUI>().text = "Restart";
@@ -151,6 +154,11 @@ public class UIManager : MonoBehaviour, IEventObserver
         backgroundController.ResetBackgrounds();
         SceneManager.LoadScene(1);
 
+    }
+
+    public void PlayButtonSound()
+    {
+        AudioSource.PlayClipAtPoint(buttonSound, Camera.main.transform.position);
     }
 
 

@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2687070363
+    locked: 0
+  - name: Sky
+    uniqueID: 3364128587
+    locked: 0
+  - name: Water
+    uniqueID: 969326655
+    locked: 0
+  - name: Ship
+    uniqueID: 2094333783
+    locked: 0

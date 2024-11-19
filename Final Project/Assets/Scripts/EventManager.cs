@@ -88,10 +88,10 @@ public class EventManager : MonoBehaviour
         //Storm Event
         stormEvent = ScriptableObject.CreateInstance<EventData>();
         stormEvent.eventTitle = "Storm!";
-        stormEvent.description = "This is an unfinished event. -100 hp and -10 morale";
+        stormEvent.description = "This is an unfinished event. -10 hp and -10 morale";
         stormEvent.isTwoChoices = false;
         stormEvent.effects = new List<Tuple<string, int>>();
-        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -110));
+        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
         stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
         stormEvent.rarity = 1;
         possibleEvents.Add(stormEvent);
@@ -103,7 +103,6 @@ public class EventManager : MonoBehaviour
         treasureEvent.isTwoChoices = false;
         treasureEvent.effects = new List<Tuple<string, int>>();
         treasureEvent.effects.Add(new Tuple<string, int>("money", 100));
-        treasureEvent.effects.Add(new Tuple<string, int>("crewMorale", -110));
         treasureEvent.rarity = 1;
         possibleEvents.Add(treasureEvent);
 

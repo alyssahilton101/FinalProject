@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private int daysPassed;
     private int distanceRemaining;
     private Pace currentPace;
-    public GameState gameState;
+    private GameState gameState;
     bool isGameWon = false;
     int foodConsumedPerDay = 10;
     int distanceTraveledPerDay = 1;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     //Enums for game state and pace
     public enum Pace { Normal, Slow, Fast };
-    public enum GameState { Travel, Stopped };
+    enum GameState { Travel, Stopped };
 
     //UI Events for updating key values
     public UnityEvent<int> onDaysPassedUpdate;
