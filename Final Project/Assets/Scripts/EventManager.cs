@@ -40,6 +40,10 @@ public class EventData : ScriptableObject
     public Action ifYes;
     public Action ifNo;
 
+    //Sound to play when the event is triggered
+    public AudioClip sound;
+
+
 
 
 
@@ -63,9 +67,11 @@ public class EventManager : MonoBehaviour
     public UnityEvent onIslandEventYes;
     public UnityEvent onCloseWindow;
 
-    //Variable version of a method for passing to choice
-    public delegate void ToDo(bool choice);
-
+    //Sounds to play when the event is triggered
+    [SerializeField] AudioClip concern;
+    [SerializeField] AudioClip fail;
+    [SerializeField] AudioClip good;
+    [SerializeField] AudioClip veryGood;
 
 
 
@@ -82,6 +88,7 @@ public class EventManager : MonoBehaviour
         islandEvent.isTwoChoices = true; 
         islandEvent.effects = new List<Tuple<string, int>>();
         islandEvent.rarity = 1;
+        islandEvent.sound = good;
         islandEvent.ifYes = () => { Debug.Log("Yes"); onIslandEventYes.Invoke(); };
         islandEvent.ifNo = () => { Debug.Log("No"); onCloseWindow.Invoke(); };
 
@@ -91,9 +98,10 @@ public class EventManager : MonoBehaviour
         stormEvent.description = "This is an unfinished event. -10 hp and -10 morale";
         stormEvent.isTwoChoices = false;
         stormEvent.effects = new List<Tuple<string, int>>();
-        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -10));
+        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -100));
         stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
         stormEvent.rarity = 1;
+        stormEvent.sound = concern;
         possibleEvents.Add(stormEvent);
 
         //Treasure Event
@@ -103,7 +111,9 @@ public class EventManager : MonoBehaviour
         treasureEvent.isTwoChoices = false;
         treasureEvent.effects = new List<Tuple<string, int>>();
         treasureEvent.effects.Add(new Tuple<string, int>("money", 100));
+        treasureEvent.effects.Add(new Tuple<string, int>("crewMorale", -110));
         treasureEvent.rarity = 1;
+        treasureEvent.sound = good;
         possibleEvents.Add(treasureEvent);
 
 

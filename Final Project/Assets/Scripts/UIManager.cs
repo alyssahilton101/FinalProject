@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour, IEventObserver
     [SerializeField] UnityEngine.UI.Button yesButton;
     [SerializeField] UnityEngine.UI.Button noButton;
     [SerializeField] AudioClip buttonSound;
+    [SerializeField] AudioClip goodSound;
+    [SerializeField] AudioClip badSound;
 
     EventManager eventManager;
     public UnityEvent onCloseMenu;
@@ -123,10 +125,12 @@ public class UIManager : MonoBehaviour, IEventObserver
     public void OnEventTriggered(EventData eventData)
     {
         if (eventData.isTwoChoices) {
-            Debug.Log("This event has two choices, gross");
+            PlayButtonSound(eventData.sound);
             displayTwoChoiceEvent(eventData.eventTitle, eventData.description);
+            
         }
         else {
+            PlayButtonSound(eventData.sound);
             displayEvent(eventData.eventTitle, eventData.description, eventData.isTwoChoices);
         }
     }
@@ -139,6 +143,14 @@ public class UIManager : MonoBehaviour, IEventObserver
     }
 
     public void displayGameOver(string title, string message) {
+        if (title == "You won!") {
+            PlayButtonSound(goodSound);
+        }
+        else
+        {
+            PlayButtonSound(badSound);
+        }
+
         displayEvent(title, message, false);
 
 
@@ -156,9 +168,16 @@ public class UIManager : MonoBehaviour, IEventObserver
 
     }
 
+
+    //Sound Methods
     public void PlayButtonSound()
     {
         AudioSource.PlayClipAtPoint(buttonSound, Camera.main.transform.position);
+    }
+
+    public void PlayButtonSound(AudioClip clip)
+    {
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
     }
 
 

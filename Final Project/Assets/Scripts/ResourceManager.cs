@@ -208,7 +208,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     {
         int cost = 10;
         int amount = 50;
-        if (money >= cost)
+        if (money >= cost && !(food >= 9999))
         {
             setMoney(-cost);
             setFood(amount);
@@ -218,7 +218,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     {
         int cost = 100;
         int amount = 100;
-        if (money >= cost)
+        if (money >= cost && !(shipHP == 100))
         {
             setMoney(-cost);
             setShipHP(amount);
@@ -228,7 +228,7 @@ public class ResourceManager : MonoBehaviour, IEventObserver
     {
         int cost = 50;
         int amount = 100;
-        if (money >= cost)
+        if (money >= cost && !(crewMorale == 100))
         {
             setMoney(-cost);
             setCrewMorale(amount);

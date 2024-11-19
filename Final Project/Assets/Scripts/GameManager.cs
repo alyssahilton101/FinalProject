@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private Pace currentPace;
     private GameState gameState;
     bool isGameWon = false;
+    bool isGameOver = false;
     int foodConsumedPerDay = 10;
     int distanceTraveledPerDay = 1;
     private float currentTimer = 3;
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
     //Contains the logic for game over
     public void gameOver(string message)
     {
-        Debug.Log(message);
+        isGameOver = true;
         if (isGameWon)
         {
             gameState = GameState.Stopped;
@@ -185,10 +186,11 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Stopped;
         }
-        else
+        else if(!isGameOver)
         {
             gameState = GameState.Travel;
         }
+
     }
 
    
