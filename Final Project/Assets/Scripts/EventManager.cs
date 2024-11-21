@@ -60,9 +60,11 @@ public class EventManager : MonoBehaviour
     private List<IEventObserver> observers = new List<IEventObserver>();
 
     //Events
+    public EventData startEvent;
     public EventData islandEvent;
     public EventData stormEvent;
     public EventData treasureEvent;
+    public EventData shipwreckEvent;
     public UnityEvent onEventTriggered;
     public UnityEvent onIslandEventYes;
     public UnityEvent onCloseWindow;
@@ -81,10 +83,23 @@ public class EventManager : MonoBehaviour
         //Setting up all the events. Is there a better way to do this? Probably lol
         possibleEvents = new List<EventData>();
 
+        //Start Event
+        startEvent = ScriptableObject.CreateInstance<EventData>();
+        startEvent.eventTitle = "Start Event";
+        startEvent.description =
+            "You are the captain of a ship. You must navigate the seas and reach your destination. " +
+            "You will face many challenges along the way. Good luck!";
+        startEvent.isTwoChoices = false;
+        startEvent.effects = new List<Tuple<string, int>>();
+        startEvent.rarity = 0;
+        startEvent.sound = good;
+
+
         //Island Event
         islandEvent = ScriptableObject.CreateInstance<EventData>();
         islandEvent.eventTitle = "Land Ho!";
-        islandEvent.description = "Through the spyglass, ye see a shore lined with buildings. Seems this could be a good chance to rest or snag supplies. Do ye make for shore?";
+        islandEvent.description = "Through the spyglass, ye see a shore lined with buildings." +
+            "Seems this could be a good chance to rest or snag supplies. Do ye make for shore?";
         islandEvent.isTwoChoices = true; 
         islandEvent.effects = new List<Tuple<string, int>>();
         islandEvent.rarity = 1;
@@ -98,7 +113,7 @@ public class EventManager : MonoBehaviour
         stormEvent.description = "This is an unfinished event. -10 hp and -10 morale";
         stormEvent.isTwoChoices = false;
         stormEvent.effects = new List<Tuple<string, int>>();
-        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -100));
+        stormEvent.effects.Add(new Tuple<string, int>("shipHP", -30));
         stormEvent.effects.Add(new Tuple<string, int>("crewMorale", -10));
         stormEvent.rarity = 1;
         stormEvent.sound = concern;
@@ -111,10 +126,48 @@ public class EventManager : MonoBehaviour
         treasureEvent.isTwoChoices = false;
         treasureEvent.effects = new List<Tuple<string, int>>();
         treasureEvent.effects.Add(new Tuple<string, int>("money", 100));
-        treasureEvent.effects.Add(new Tuple<string, int>("crewMorale", -110));
         treasureEvent.rarity = 1;
         treasureEvent.sound = good;
         possibleEvents.Add(treasureEvent);
+
+        //Shipwreck Event Success
+        EventData shipwreckSuccess = ScriptableObject.CreateInstance<EventData>();
+        shipwreckSuccess.eventTitle = "Success!";
+        shipwreckSuccess.description = "Ye find a chest of gold and a few supplies. A good haul! (+50 money, +20 food, and +10 morale)" ;
+        shipwreckSuccess.isTwoChoices = false;
+        shipwreckSuccess.effects = new List<Tuple<string, int>>();
+        shipwreckSuccess.effects.Add(new Tuple<string, int>("money", 50));
+        shipwreckSuccess.effects.Add(new Tuple<string, int>("food", 20));
+        shipwreckSuccess.effects.Add(new Tuple<string, int>("morale", 10));
+        shipwreckSuccess.rarity = 2;
+        shipwreckSuccess.sound = good;
+
+        //Shipwreck Event Fail
+        EventData shipwreckFail = ScriptableObject.CreateInstance<EventData>();
+        shipwreckFail.eventTitle = "Fail!";
+        shipwreckFail.description = "Ye find nothing but a few splinters and a bad omen. (-10 morale)";
+        shipwreckFail.isTwoChoices = false;
+        shipwreckFail.effects = new List<Tuple<string, int>>();
+        shipwreckFail.effects.Add(new Tuple<string, int>("morale", -10));
+        shipwreckFail.rarity = 2;
+        shipwreckFail.sound = fail;
+
+
+        //Shipwreck Event
+        shipwreckEvent = ScriptableObject.CreateInstance<EventData>();
+        shipwreckEvent.eventTitle = "Wreck Ahead!";
+        shipwreckEvent.description = "Yer spyglass spots the remnants of a shipwreck drifting on the waves." +
+            "Could be salvageable loot...or trouble. Do ye risk investigating?";
+        shipwreckEvent.isTwoChoices = true;
+        shipwreckEvent.effects = new List<Tuple<string, int>>();
+        shipwreckEvent.rarity = 2;
+        shipwreckEvent.sound = concern;
+        shipwreckEvent.ifYes = () => {  TriggerEvent(shipwreckSuccess, shipwreckFail); /* Add logic for a random reward or penalty */ };
+        shipwreckEvent.ifNo = () => { onCloseWindow.Invoke(); };
+        possibleEvents.Add(shipwreckEvent);
+
+       
+
 
 
     }
@@ -174,6 +227,26 @@ public class EventManager : MonoBehaviour
         {
             currentEvent.ifNo();
         }
+    }
+
+    //Generilized method for triggering events, useful in the future for more complex events
+    public void TriggerEvent(EventData eventData) {
+        currentEvent = eventData;
+        NotifyObservers(currentEvent);
+       // onEventTriggered.Invoke();
+    }
+
+    public void TriggerEvent(EventData eventData1, EventData eventData2)
+    {
+        List<EventData> possibleOutcomes;
+        possibleOutcomes = new List<EventData>();
+        possibleOutcomes.Add(eventData1);
+        possibleOutcomes.Add(eventData2);
+        //To do: add rarity logic
+        int randomIndex = UnityEngine.Random.Range(0, possibleOutcomes.Count);
+        currentEvent = possibleOutcomes[randomIndex];
+        NotifyObservers(currentEvent);
+        //onEventTriggered.Invoke();
     }
 
 }

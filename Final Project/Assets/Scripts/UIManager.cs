@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour, IEventObserver
    [SerializeField] TextMeshProUGUI crewMorale;
     [SerializeField] TextMeshProUGUI shipHP;
     [SerializeField] TextMeshProUGUI distance;
-    [SerializeField] GameObject eventBox;
+     [SerializeField] GameObject eventBox;
     [SerializeField] TextMeshProUGUI eventText;
     [SerializeField] TextMeshProUGUI eventTitle;
     [SerializeField] GameObject eventOneButton;

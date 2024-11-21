@@ -299,6 +299,8 @@ MonoBehaviour:
   yesButton: {fileID: 391155388}
   noButton: {fileID: 1577418217}
   buttonSound: {fileID: 8300000, guid: 3821263d6f55a8a499a11c5c5d097121, type: 3}
+  goodSound: {fileID: 8300000, guid: 4184ece307a76b5478b044c50647c1a0, type: 3}
+  badSound: {fileID: 8300000, guid: ebfcc3c048e266c418437c5f0c2ab5e4, type: 3}
   onCloseMenu:
     m_PersistentCalls:
       m_Calls:
@@ -2396,7 +2398,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9f06a82948a4ec549bb77a73b2722b7b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.9
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3467,6 +3469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleEvents: []
+  startEvent: {fileID: 0}
   islandEvent: {fileID: 0}
   stormEvent: {fileID: 0}
   treasureEvent: {fileID: 0}
@@ -3515,6 +3518,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  concern: {fileID: 8300000, guid: ebfcc3c048e266c418437c5f0c2ab5e4, type: 3}
+  fail: {fileID: 8300000, guid: 5ce96cec1530cf943b0bb119cfab3dd4, type: 3}
+  good: {fileID: 8300000, guid: e685c7894bc9e7745bb11c573ae686b7, type: 3}
+  veryGood: {fileID: 8300000, guid: 4184ece307a76b5478b044c50647c1a0, type: 3}
 --- !u!4 &1073280473
 Transform:
   m_ObjectHideFlags: 0
@@ -4608,7 +4615,8 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: "The ship\u2019s timbers splinter and break, and before
-            ye can even cry out, the sea swallows her whole. "
+            ye can even cry out, the sea swallows her whole.  Yer voyage ends in
+            darkness, claimed by the deep."
           m_BoolArgument: 0
         m_CallState: 2
   onCrewMoraleZero:
@@ -4625,7 +4633,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: "The crew has had enough o\u2019 hard times and empty
             promises. The mutineers turn on ye, casting ye overboard to fend for
-            yerself."
+            yerself against the waves."
           m_BoolArgument: 0
         m_CallState: 2
   onFoodZero:

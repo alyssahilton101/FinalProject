@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
         //Setting up the ship
         ship.transform.position = shipStartPosition.transform.position;
 
+        
+
     }
 
     // Update is called once per frame
@@ -123,7 +125,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.Stopped)
         {
-            //logic
+            
         }
     }
  
