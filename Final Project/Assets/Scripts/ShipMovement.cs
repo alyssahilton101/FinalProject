@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
 {
-    public float amplitude = 0.5f; // How high the ship moves up and down
-    public float frequency = 1f;  // How fast the ship moves up and down
+    //Used ChatGPT for help generating this script
+
+    public float amplitude = 0.5f;
+    public float frequency = 1f; 
 
     private Vector3 startPosition;
 

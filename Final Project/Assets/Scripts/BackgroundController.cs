@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
 {
+    //Used ChatGPT for help generating this script
+
     public float scrollSpeed = 5f; // Speed of the background movement
     public float backgroundWidth; // Width of a single background object
     public GameObject[] backgrounds; // Assign all background objects here
