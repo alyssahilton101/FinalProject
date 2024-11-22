@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             eventManager.TriggerIslandEvent();
 
         }
-        if(distanceRemaining % 10 == 0)
+        if(distanceRemaining % 5 == 0)
         {
             //trigger random event
             eventManager.TriggerRandomEvent();
